@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#05060a">
+  <meta name="description" content="Página pessoal e central de links de Gustavo Garcia Falkoski.">
+  <title>Gustavo Garcia Falkoski — Links</title>
+  <style>
+    :root {
+      --bg: #05060a;
+      --surface: rgba(11, 22, 48, 0.58);
+      --surface-hover: rgba(19, 35, 77, 0.82);
+      --text: #f8fafc;
+      --muted: #9daac5;
+      --line: rgba(148, 163, 184, 0.13);
+      --blue: #1e3a8a;
+      --blue-light: #91b8ff;
+      --violet: #8b5cf6;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Space Grotesk', Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(30, 58, 138, 0.42), transparent 42%),
+        radial-gradient(ellipse at 10% 70%, rgba(19, 35, 77, 0.38), transparent 34%),
+        radial-gradient(ellipse at 90% 88%, rgba(109, 40, 217, 0.13), transparent 28%),
+        #05060a;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(145, 184, 255, 0.12), transparent 16%),
+        radial-gradient(circle at 82% 68%, rgba(139, 92, 246, 0.10), transparent 18%);
+      filter: blur(8px);
+      mask-image: none;
+      animation: aurora 14s ease-in-out infinite alternate;
+    }
+
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.72;
+    }
+
+    .shell {
+      width: min(560px, calc(100% - 32px));
+      max-width: 560px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(42px, 9vh, 78px) 0 36px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 112px;
+      margin-bottom: 36px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      flex: 0 0 96px;
+      padding: 5px;
+    }
+
+    .avatar {
+      display: block;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #05060a;
+    }
+
+    .status {
+      position: absolute;
+      right: 3px;
+      bottom: 7px;
+      width: 15px;
+      height: 15px;
+      border: 3px solid #05060a;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 14px rgba(34,197,94,.6);
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #ffffff 8%, #b9d2ff 58%, #bba5ee 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: clamp(1.65rem, 5vw, 2.3rem);
+      letter-spacing: -0.045em;
+      animation: nameEnter 700ms 180ms cubic-bezier(.16,1,.3,1) both;
+    }
+
+    .bio {
+      min-height: 3.3em;
+      max-width: 540px;
+      color: #b1bdd1;
+      line-height: 1.65;
+    }
+
+    .bio::after {
+      content: "";
+      display: inline-block;
+      width: 1px;
+      height: 1em;
+      margin-left: 3px;
+      vertical-align: -2px;
+      background: #91b8ff;
+      animation: cursor 800ms steps(1) infinite;
+    }
+
+    .links {
+      display: grid;
+      width: 100%;
+      gap: 14px;
+    }
+
+    .link-card {
+      display: grid;
+      width: 100%;
+      min-height: 74px;
+      grid-template-columns: 44px minmax(0, 1fr) 24px;
+      align-items: center;
+      padding: 10px 16px 10px 12px;
+      color: inherit;
+      text-decoration: none;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: var(--radius);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 44px;
+      border-radius: 13px;
+    }
+
+    .icon svg,
+    .link-card > .arrow {
+      width: 20px;
+      height: 20px;
+      max-width: 20px;
+      max-height: 20px;
+    }
+
+    .copy {
+      min-width: 0;
+      padding: 0 14px;
+    }
+
+    .title { display: block; margin-bottom: 3px; }
+    .subtitle { display: block; }
+
+    footer {
+      margin-top: auto;
+      color: #66718a;
+      padding-top: 48px;
+      letter-spacing: .02em;
+    }
+
+    @property --spin {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    @keyframes aurora { to { transform: scale(1.12) translate3d(2%, -1%, 0); } }
+    @keyframes ringSpin { to { transform: rotate(360deg); } }
+    @keyframes borderSpin { to { --spin: 360deg; } }
+    @keyframes avatarEnter { from { opacity: 0; transform: scale(.72) rotate(-8deg); } }
+    @keyframes nameEnter { from { opacity: 0; transform: translateY(12px); } }
+    @keyframes cardEnter { to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes cursor { 50% { opacity: 0; } }
+
+    @media (max-width: 540px) {
+      .shell { width: min(100% - 28px, 560px); max-width: 560px; padding-top: 34px; }
+      .profile { gap: 14px; margin-bottom: 28px; }
+      .avatar-wrap { width: 96px; height: 96px; flex-basis: 96px; }
+      .avatar { width: 96px; height: 96px; }
+      .link-card { grid-template-columns: 44px minmax(0, 1fr) 20px; }
+      .copy { padding: 0 10px; }
+      .bio { min-height: 4.2em; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #starfield { display: none; }
+      .bio::after { display: none; }
+      body::before, .avatar-wrap::before, .link-card::before { animation: none !important; }
+      .avatar-wrap, h1, .link-card { animation-duration: .01ms !important; animation-delay: 0ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <main class="shell">
+    <header class="profile">
+      <div class="avatar-wrap">
+        <img class="avatar" src="assets/avatar.png" alt="Foto de perfil de Gustavo Garcia Falkoski">
+        <span class="status" aria-label="Disponível"></span>
+      </div>
+      <div>
+        <h1>Gustavo Garcia Falkoski</h1>
+        <p class="bio">Desenvolvedor criando projetos na web e compartilhando ideias. Aqui estão meus principais links e redes.</p>
+      </div>
+    </header>
+
+    <nav class="links" aria-label="Links principais">
+      <a class="link-card" href="https://github.com/ofalkoski" target="_blank" rel="noopener noreferrer">
+        <span class="icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z"/></svg>
+        </span>
+        <span class="copy"><span class="title">GitHub</span><span class="subtitle">Código, projetos e contribuições</span></span>
+        <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+
+      <a class="link-card" href="https://www.instagram.com/ofalkoski/" target="_blank" rel="noopener noreferrer">
+        <span class="icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="copy"><span class="title">Instagram</span><span class="subtitle">@ofalkoski</span></span>
+        <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+
+      <a class="link-card" href="https://www.linkedin.com/in/gustavo-falkoski-4b7101284/" target="_blank" rel="noopener noreferrer">
+        <span class="icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14ZM8.34 17.34V9.9H5.75v7.44h2.59ZM7.05 8.7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm10.2 8.64v-3.88c0-2.08-1.11-3.05-2.59-3.05a2.24 2.24 0 0 0-2.04 1.12V9.9H9.99c.03.72 0 7.44 0 7.44h2.63v-4.16c0-.22.02-.44.08-.6.18-.44.59-.9 1.28-.9.9 0 1.26.69 1.26 1.7v3.96h3.01Z"/></svg>
+        </span>
+        <span class="copy"><span class="title">LinkedIn</span><span class="subtitle">Experiência e trajetória profissional</span></span>
+        <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+
+      <a class="link-card" href="mailto:ogufalkoski@gmail.com">
+        <span class="icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+        </span>
+        <span class="copy"><span class="title">Contato</span><span class="subtitle">ogufalkoski@gmail.com</span></span>
+        <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+    </nav>
+
+    <footer>© <span id="year"></span> Gustavo Garcia Falkoski</footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const description = "Desenvolvedor criando projetos na web e compartilhando ideias. Aqui estão meus principais links e redes.";
+    const bio = document.querySelector(".bio");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      bio.textContent = description;
+    } else {
+      bio.textContent = "";
+      let index = 0;
+      const type = () => {
+        bio.textContent = description.slice(0, index++);
+        if (index <= description.length) {
+          setTimeout(type, 28);
+        }
+      };
+      setTimeout(type, 420);
+    }
+
+    document.querySelectorAll(".link-card").forEach((card) => {
+      card.addEventListener("mousemove", (event) => {
+        if (reduceMotion) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+        card.style.setProperty("--my", `${event.clientY - rect.top}px`);
+      });
+    });
+
+    const canvas = document.getElementById("starfield");
+    const context = canvas.getContext("2d");
+    let stars = [];
+
+    function createStars() {
+      if (reduceMotion) return;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * ratio;
+      canvas.height = window.innerHeight * ratio;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      const count = Math.min(95, Math.floor(window.innerWidth * window.innerHeight / 14000));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 1.15 + 0.2,
+        alpha: Math.random() * 0.55 + 0.12,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.008 + 0.002
+      }));
+    }
+
+    function drawStars(time = 0) {
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const star of stars) {
+        const glow = star.alpha + Math.sin(time * star.speed + star.phase) * 0.12;
+        context.beginPath();
+        context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        context.fillStyle = `rgba(180, 205, 255, ${Math.max(0.08, glow)})`;
+        context.fill();
+      }
+      if (!reduceMotion) requestAnimationFrame(drawStars);
+    }
+
+    createStars();
+    drawStars();
+    window.addEventListener("resize", createStars);
+  </script>
+</body>
+</html>
